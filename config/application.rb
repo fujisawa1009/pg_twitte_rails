@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module PgTwitteRails
   class Application < Rails::Application
+    # デフォルトのロケールを日本語に設定
+    config.i18n.default_locale = :ja
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
