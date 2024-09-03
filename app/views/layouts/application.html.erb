@@ -14,36 +14,58 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <header>
       <div class="header-logo">
-        <%= link_to("TweetApp", "/") %>
+        <% if @current_user %>
+          <%= link_to("TweetApp", "/posts/index") %>
+        <% else %>
+          <%= link_to("TweetApp", "/") %>
+        <% end %>
       </div>
-      <ul class="header-menus">
-        <li>
-          <%= link_to("TweetAppとは", "/about") %>
-        <li>
-        <li>
-          <%= link_to("投稿一覧", "/posts/index") %>
-        <li>
-        <li>
-          <%= link_to("新規投稿", "/posts/new") %>
-        </li>
-        <li>
-          <%= link_to("ユーザー一覧", "/users/index") %>
-        </li> 
-        <li>
-          <%= link_to("新規登録", "/signup") %>
+      <ul class="header-menus">     
+        <% if @current_user %>
+          <li>
+            <%= link_to(@current_user.name, "/users/#{@current_user.id}") %>
+          </li>
+          <!-- ログインしている状態でヘッダーに表示する -->
+          <li>
+            <%= link_to("投稿一覧", "/posts/index") %>
+          </li>
+          <li>
+            <%= link_to("新規投稿", "/posts/new") %>
+          </li>
+          <li>
+            <%= link_to("ユーザー一覧", "/users/index") %>
+          </li>
+          <li>
+            <!-- ログアウト用のリンクがmethod機能しない(JavaScriptが正しく動作していない) -->
+            <%= link_to "ログアウト", "/logout", data: { turbo_method: :post } %>
+          </li>
+        <% else %>
+          <!-- ログインしていない状態でヘッダーに表示する -->
+          <li>
+            <%= link_to("TweetAppとは", "/about") %>
+          </li>
+          <li>
+            <%= link_to("新規登録", "/signup") %>
+          </li>
+          <li>
+            <%= link_to("ログイン", "/login") %>
+          </li>
+        <% end %>
       </ul>
     </header>
-    <!-- flash[:notice]に代入されたメッセージを表示 -->
+
     <% if flash[:notice] %>
       <div class="flash">
         <%= flash[:notice] %>
       </div>
     <% end %>
+    
     <%= yield %>
   </body>
 </html>
