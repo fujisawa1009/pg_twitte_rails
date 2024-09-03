@@ -1,17 +1,24 @@
 <div class="main posts-show">
   <div class="container">
     <div class="posts-show-item">
+      <div class="post-user-name">
+        <!-- ユーザーの画像とユーザー詳細リンクを追加 -->
+        <img src="<%= "/user_images/#{@user.image_name}" %>">
+        <%= link_to(@user.name, "/users/#{@user.id}") %>
+      </div>
       <p>
         <%= @post&.content %>
       </p>
       <div class="post-time">
         <%= @post&.created_at %>
       </div>
-      <div class="post-menus">
-        <%= link_to("編集", "/posts/#{@post.id}/edit") %>
-        <!--削除のリンクに問題ある-->
-        <%= link_to("削除", "/posts/#{@post.id}/destroy", data: { turbo_method: :post }) %>
-      </div>
+      <% if @post.user_id == @current_user.id %>
+        <div class="post-menus">
+          <%= link_to("編集", "/posts/#{@post.id}/edit") %>
+          <!--削除のリンクに問題(POSTできない問題解消済み)-->
+          <%= link_to("削除", "/posts/#{@post.id}/destroy", data: { turbo_method: :post }) %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
