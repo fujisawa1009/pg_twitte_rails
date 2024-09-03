@@ -37,6 +37,8 @@ gem "bootsnap", require: false
 gem 'sassc-rails'
 #日本語化
 gem 'rails-i18n'
+#暗号化
+gem 'bcrypt'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
